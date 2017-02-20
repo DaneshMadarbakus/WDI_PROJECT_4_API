@@ -10,13 +10,59 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216121112) do
+ActiveRecord::Schema.define(version: 20170220124910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "requests", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "user_id"
+    t.integer  "suit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["suit_id"], name: "index_requests_on_suit_id", using: :btree
+    t.index ["user_id"], name: "index_requests_on_user_id", using: :btree
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "suit_id"
+    t.integer  "score"
+    t.text     "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["suit_id"], name: "index_reviews_on_suit_id", using: :btree
+    t.index ["user_id"], name: "index_reviews_on_user_id", using: :btree
+  end
+
+  create_table "suits", force: :cascade do |t|
+    t.string   "image"
+    t.string   "title"
+    t.string   "brand"
+    t.string   "colour"
+    t.string   "jacket_chest"
+    t.string   "jacket_length"
+    t.string   "jacket_shoulder_length"
+    t.string   "jacket_sleeve"
+    t.string   "jacket_waist"
+    t.string   "trouser_waist"
+    t.string   "trouser_length"
+    t.string   "trouser_front_rise"
+    t.text     "notes"
+    t.integer  "deposit"
+    t.integer  "daily_price"
+    t.string   "fit"
+    t.integer  "user_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["user_id"], name: "index_suits_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
+    t.string   "profile_img"
     t.string   "password_digest"
     t.string   "username"
     t.string   "telephone_no"
@@ -30,4 +76,9 @@ ActiveRecord::Schema.define(version: 20170216121112) do
     t.datetime "updated_at",          null: false
   end
 
+  add_foreign_key "requests", "suits"
+  add_foreign_key "requests", "users"
+  add_foreign_key "reviews", "suits"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "suits", "users"
 end
