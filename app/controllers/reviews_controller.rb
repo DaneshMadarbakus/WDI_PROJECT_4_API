@@ -15,7 +15,7 @@ class ReviewsController < ApplicationController
 
   # POST /reviews
   def create
-    @review = current_user.review.new(review_params)
+    @review = current_user.reviews.new(review_params)
 
     if @review.save
       render json: @review, status: :created, location: @review
