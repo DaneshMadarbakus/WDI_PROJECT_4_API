@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
+    puts "hi"
     if @user.update(user_params)
       render json: @user
     else
@@ -27,4 +28,9 @@ class UsersController < ApplicationController
     def set_user
       @user = User.find(params[:id])
     end
+
+    def user_params
+    params.require(:user).permit(:email, :profile_img, :password, :password_confirmation, :username, :telephone_no, :first_name, :last_name, :address_first_line, :address_second_line, :address_city, :address_postcode)
+    end
+
 end
